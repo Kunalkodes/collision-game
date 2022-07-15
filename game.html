@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball GAMES</title>
+    
+</head>
+<style>
+    body{
+          background-color: black;
+          color:white;
+          font: size 20px;;
+          font-weight: bold;  
+    }
+
+    .ball{
+       
+        height:70px;
+        width: 70px;
+        background-color: red;
+        box-shadow: 5px 5px orange;
+        border:2px solid wheat;
+        border-radius:50%;
+        position:absolute;
+        left:300px;
+        bottom:0px;
+    }
+    
+
+    .bottom-bar-start{
+        width:50px;
+        height:100px;
+        background-color:green;
+        border:2px solid white;
+        position:absolute;
+        bottom:0px;
+        left:1850px;
+        box-shadow: 5px 5px yellowgreen;
+    }
+
+    .top-bar-start{
+        width:50px;
+        height:100px;
+        background-color:green;
+        border:2px solid white;
+        position:relative;
+        top:0px;
+        left:1850px;
+        box-shadow: 5px 5px yellowgreen;
+    }
+    .top-bar-end {
+        width:50px;
+        height:100px;
+        background-color:green;
+        border:2px solid white;
+        position:relative;
+        top:0px;
+        left:0px;
+        animation-name:move;
+        animation-duration: 3s;
+        animation-direction: normal;
+        animation-iteration-count: infinite;
+        box-shadow: 5px 5px yellowgreen;
+    }
+
+
+    .bottom-bar-end{
+        width:50px;
+
+        height:100px;
+        background-color:green;
+        border:2px solid white;
+        position:absolute;
+        bottom:0px;
+        left:0px;
+        animation-name:move;
+        animation-duration: 3s;
+        animation-direction: normal;
+        animation-iteration-count: infinite;
+        box-shadow: 5px 5px yellowgreen;
+    }
+
+   
+    .score{
+        color:aqua;
+        text-align: center;
+        
+    }
+
+    @keyframes move{
+       from{left:1850px};
+       to{left:0px};
+    }
+
+
+</style>
+<body>
+   
+    <h1 id ="score"style="text-align:center">Ball GAMES 2022 @ Click on green coloured bar to start!!! </h1>
+     <hr>
+ <div class="container">
+   
+  
+   <div class="ball" id="ball">
+   </div>
+  <div id="play">
+    <div class="bottom-bar-start" id="bottom-bar-start">
+    </div>
+    <div class="top-bar-start" id="top-bar-start">
+    </div>
+  </div>
+   
+ </div>
+<script >
+    let ball=document.getElementById("ball");
+    let score=document.getElementById("score");
+    let start = new Date().getTime();
+    
+    let bar1=document.getElementById("bottom-bar-start");
+    
+    let bar2=document.getElementById("top-bar-start");
+    
+    bar1.addEventListener('click',function(e){
+
+        
+            bar1.classList.remove("bottom-bar-start");
+            bar1.classList.add("bottom-bar-end");  
+            bar2.classList.remove("top-bar-start");
+            bar2.classList.add("top-bar-end");   
+    })
+    
+    document.onkeydown = function(e){
+        
+        if (e.keyCode == 38)
+        {
+            let b3x=parseInt(window.getComputedStyle(ball,null).getPropertyValue("bottom"));
+            ball.style.bottom=b3x+70+"px";       
+        }
+        if (e.keyCode == 40)
+        {
+            let b3x=parseInt(window.getComputedStyle(ball,null).getPropertyValue("bottom"));
+            ball.style.bottom=b3x-70+"px";       
+        }
+        if (e.keyCode == 39)
+        {
+            let b1x=parseInt(window.getComputedStyle(ball,null).getPropertyValue("left"));
+            ball.style.left=b1x+70+"px";
+        }
+        if (e.keyCode == 37)
+        {
+            let b2x=parseInt(window.getComputedStyle(ball,null).getPropertyValue("left"));
+            ball.style.left=b2x-70+"px";
+        }
+      
+    }
+    let h0=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("height"));
+    let h3=parseInt(window.getComputedStyle(bar2,null).getPropertyValue("height"));
+    
+    
+    setInterval(()=>{
+        let h1=Math.random()*400;
+        if (h1>350 )
+        {
+            h1=350;
+        }
+        bar1.style.height=h0+h1+"px";   
+       
+        bar2.style.height=740-70-h1-h0+"px";  
+    
+    
+    },2000)
+    
+    
+    setInterval(() => {
+        let bx=parseInt(window.getComputedStyle(ball,null).getPropertyValue("left"));
+        let by=parseInt(window.getComputedStyle(ball,null).getPropertyValue("bottom"));
+        let ox=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("left"));
+        let oy=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("height"));
+        
+        
+        
+          if ((by < oy) && (bx > ox-80) && (bx< ox+80) ) //bottom bar collision
+         {
+           
+            document.getElementById("bottom-bar-start").remove();
+            document.getElementById("top-bar-start").remove();
+            ball.classList.remove("ball");
+            let end = new Date().getTime();
+            let time = end - start;
+            console.log(time);
+            score.innerHTML=`Game Over : Alas you survived for only ${time/1000} seconds!!!`;
+         }
+         else if ((by > oy+100) && (bx > ox-80) && (bx< ox+80) ) //top bar collison 
+         {
+            
+            document.getElementById("bottom-bar-start").remove();
+            document.getElementById("top-bar-start").remove();
+            ball.classList.remove("ball");
+            let end = new Date().getTime();
+            let time = end - start;
+            console.log(time);
+            score.innerHTML=`Game Over : Alas you survived for only ${time/1000} seconds!!!!`;
+         }
+        
+        
+    }, 200)
+    
+    </script>
+
+</body>
+</html>

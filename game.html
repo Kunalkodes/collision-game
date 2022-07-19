@@ -50,37 +50,8 @@
         left:1850px;
         box-shadow: 5px 5px yellowgreen;
     }
-    .top-bar-end {
-        width:50px;
-        height:100px;
-        background-color:green;
-        border:2px solid white;
-        position:relative;
-        top:0px;
-        left:0px;
-        animation-name:move;
-        animation-duration: 3s;
-        animation-direction: normal;
-        animation-iteration-count: infinite;
-        box-shadow: 5px 5px yellowgreen;
-    }
+   
 
-
-    .bottom-bar-end{
-        width:50px;
-
-        height:100px;
-        background-color:green;
-        border:2px solid white;
-        position:absolute;
-        bottom:0px;
-        left:0px;
-        animation-name:move;
-        animation-duration: 3s;
-        animation-direction: normal;
-        animation-iteration-count: infinite;
-        box-shadow: 5px 5px yellowgreen;
-    }
 
    
     .score{
@@ -89,10 +60,6 @@
         
     }
 
-    @keyframes move{
-       from{left:1850px};
-       to{left:0px};
-    }
 
 
 </style>
@@ -125,10 +92,25 @@
     bar1.addEventListener('click',function(e){
 
         
-            bar1.classList.remove("bottom-bar-start");
-            bar1.classList.add("bottom-bar-end");  
-            bar2.classList.remove("top-bar-start");
-            bar2.classList.add("top-bar-end");   
+           function barmove(){
+            let pos1=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("left"));
+            let pos2=parseInt(window.getComputedStyle(bar2,null).getPropertyValue("left"));
+
+            if (pos1 == 0)
+            {
+                bar1.style.left=1850+"px"; 
+                bar2.style.left=1850+"px"; 
+
+            }
+            else{
+                bar1.style.left=pos1-2+"px"; 
+                bar2.style.left=pos2-2+"px"; 
+            }
+            
+           }
+
+           setInterval(barmove,1);
+           
     })
     
     document.onkeydown = function(e){
@@ -166,11 +148,8 @@
             h1=350;
         }
         bar1.style.height=h0+h1+"px";   
-       
         bar2.style.height=740-70-h1-h0+"px";  
-    
-    
-    },2000)
+    },3000)
     
     
     setInterval(() => {
@@ -191,6 +170,7 @@
             let time = end - start;
             console.log(time);
             score.innerHTML=`Game Over : Alas you survived for only ${time/1000} seconds!!!`;
+            console.log("bottom bar collision");
          }
          else if ((by > oy+100) && (bx > ox-80) && (bx< ox+80) ) //top bar collison 
          {
@@ -202,6 +182,7 @@
             let time = end - start;
             console.log(time);
             score.innerHTML=`Game Over : Alas you survived for only ${time/1000} seconds!!!!`;
+            console.log("top bar collison");
          }
         
         

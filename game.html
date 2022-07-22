@@ -83,7 +83,7 @@
 <script >
     let ball=document.getElementById("ball");
     let score=document.getElementById("score");
-    let start = new Date().getTime();
+    let start = null;
     
     let bar1=document.getElementById("bottom-bar-start");
     
@@ -91,7 +91,7 @@
     
     bar1.addEventListener('click',function(e){
 
-        
+            start = new Date().getTime();
            function barmove(){
             let pos1=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("left"));
             let pos2=parseInt(window.getComputedStyle(bar2,null).getPropertyValue("left"));
@@ -100,8 +100,16 @@
             {
                 bar1.style.left=1850+"px"; 
                 bar2.style.left=1850+"px"; 
+                
 
             }
+            else if ( pos1 == 1750){
+                bar1.style.left=pos1-2+"px"; 
+                bar2.style.left=pos2-2+"px"; 
+                heightchange();
+            }
+
+            
             else{
                 bar1.style.left=pos1-2+"px"; 
                 bar2.style.left=pos2-2+"px"; 
@@ -109,7 +117,7 @@
             
            }
 
-           setInterval(barmove,1);
+           setInterval(barmove,0.1);
            
     })
     
@@ -140,8 +148,9 @@
     let h0=parseInt(window.getComputedStyle(bar1,null).getPropertyValue("height"));
     let h3=parseInt(window.getComputedStyle(bar2,null).getPropertyValue("height"));
     
-    
-    setInterval(()=>{
+ 
+
+    function heightchange(){
         let h1=Math.random()*400;
         if (h1>350 )
         {
@@ -149,8 +158,7 @@
         }
         bar1.style.height=h0+h1+"px";   
         bar2.style.height=740-70-h1-h0+"px";  
-    },3000)
-    
+    }
     
     setInterval(() => {
         let bx=parseInt(window.getComputedStyle(ball,null).getPropertyValue("left"));
@@ -172,7 +180,7 @@
             score.innerHTML=`Game Over : Alas you survived for only ${time/1000} seconds!!!`;
             console.log("bottom bar collision");
          }
-         else if ((by > oy+100) && (bx > ox-80) && (bx< ox+80) ) //top bar collison 
+         else if ((by > oy+150) && (bx > ox-80) && (bx< ox+80) ) //top bar collison 
          {
             
             document.getElementById("bottom-bar-start").remove();
